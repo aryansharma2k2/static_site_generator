@@ -18,6 +18,8 @@ class HtmlNode():
         raise NotImplementedError()
     
     def props_to_html(self):
+        if not self.props:
+            self.props = {}
         props_as_string = ""
         for i in self.props:
              props_as_string += f" {i}=\"{self.props[i]}\""
@@ -27,11 +29,28 @@ class LeafNode(HtmlNode):
     def __init__(self, tag, value, children=None, props=None):
         super().__init__(tag, value, children, props)
 
+
     def to_html(self):
         if not self.value:
             raise ValueError
         elif not self.tag:
             return f"{self.value}" 
         else:
-            return f"<{self.tag} {self.props_to_html}>{self.value}</{self.tag}>"
+            return f"<{self.tag}{self.props_to_html()}>{self.value}</{self.tag}>"
+        
+class ParentNode(HtmlNode):
+    def __init__(self, tag, children, props={}, value=None):
+        super().__init__(tag, value, children, props)
+    
+    def to_html(self):
+        if not self.tag:
+            raise ValueError
+        elif not self.children:
+            raise ValueError("children argument empty")
+        else:
+            bruh = ""
+            for child in self.children:
+                bruh+=child.to_html()
+            return f"<{self.tag}{self.props_to_html()}>"+bruh+f"</{self.tag}>"
+
         

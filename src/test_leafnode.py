@@ -14,6 +14,6 @@ class TestLeafNode(unittest.TestCase):
         self.assertNotEqual(node1,node2)
 
     def test_to_html(self):
-        node1 = LeafNode("a", "Click me!", {"href": "https://www.google.com"})
+        node1 = LeafNode("a", "Click me!", [], {"href": "https://www.google.com"})
         result = node1.to_html()
         self.assertEqual(result,"<a href=\"https://www.google.com\">Click me!</a>")
